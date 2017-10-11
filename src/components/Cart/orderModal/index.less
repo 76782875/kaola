@@ -1,0 +1,69 @@
+.orderModal{
+    height: 500px;
+    width:475px !important;
+    :global{
+        .ant-modal-content{
+            padding:1rem;
+            span.ant-input{
+                background-color:#191B1F;
+                border: none;
+                border-bottom: 2px solid #56edc7;
+            }
+            input::placeholder{
+                color:#999;
+                font-size: 12px;
+            }
+            input{
+                color:#FFF;
+            }
+        }
+        .ant-modal-footer{
+            .ant-btn.ant-btn-lg{
+                border:2px solid #656565;
+                color:#656565;
+                height: 1.5rem;
+                line-height: 1rem;
+                background-color: #2A2A2E;
+                font-size: 13px;
+                padding: 0 3px;
+                cursor:pointer;
+            }
+            .ant-btn.ant-btn-primary.ant-btn-lg{
+                border:2px solid #0DE7B7;
+                color:#0DE7B7;
+            }
+        }
+    }
+    div{
+        background:#191B1F;
+        color: #fff;
+        border-top: none;
+        h3{
+            color: #fff;
+            margin-bottom:1rem;
+            font-size: 13px;
+        }
+        input[type=text]{
+            width:352px; 
+            background: #191B1F;
+            border: none;
+            border-bottom: 2px solid #56edc7;
+        }
+        input,div{
+            margin-bottom:.5rem;
+            
+        }
+        .ant-orderNameinput{
+            width:352px;
+        }
+        .pText{
+            margin:2rem 0;
+            font-size: 13px;
+            .aLink{
+                color:#56edc7;
+                text-decoration-color: #56edc7;
+                text-decoration: underline;
+            }
+        }
+    }
+}

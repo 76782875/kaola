@@ -1,0 +1,61 @@
+.mpMain{
+    height: 420px;
+    :global {
+        .ant-table-body {
+            background: #1c1e22 !important;
+        }
+        .ant-table-header {
+            background: transparent !important;
+        }
+    }
+    table{
+        thead{
+            tr{
+                th{
+                    background-color:#2A2A2E;
+                    border-top: 1px solid #666;
+                    border-bottom: 1px solid #666;
+                    // width: 12.5%;
+                }
+                th>span{
+                    color:#fff;
+                    font-size: 13px;
+                }
+            }
+        }
+        tbody{
+            color:#fff;
+            tr{
+                td{
+                    border-bottom-color:#666;
+                    font-size: 12px;
+                }
+                .delete{
+                    color:red;
+                    cursor: pointer;
+                    font-size: 13px;
+                }
+                .imgContainer{
+                    width: 3rem;
+                    height: 3rem;
+                    float: right;
+                    img{
+                        height: 100%;
+                        width: 100%;
+                        border-radius: 3rem;
+                    }
+                }
+                .checkboxItem{
+                    display: flex;
+                    align-items: center;
+                    font-size: 12px;
+                    margin-bottom: 2px;
+                }
+            }
+
+        }
+    }
+    button{
+        color:#fff;
+    }
+}

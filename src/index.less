@@ -1,0 +1,44 @@
+* {
+    outline: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: absolute;
+    background: #1c1e22;
+    min-width: 1200px;
+    min-height: 700px;
+
+}
+#root {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+
+:global {
+    .ellipsis {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 50px;
+    }
+
+    .ant-tooltip {
+        font-size: 10px !important;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: #1c1e22;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #1c1e22;
+}
+::-webkit-scrollbar-track {
+    background-color: #1c1e22;
+}

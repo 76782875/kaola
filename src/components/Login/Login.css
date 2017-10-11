@@ -1,0 +1,158 @@
+.loginBomb{
+    width:230px;
+    height: 230px;
+    margin:0 auto;
+    background:#fff;
+    position: absolute;
+    top: calc(50% - 120px);
+    left: calc(50% - 120px);
+    text-align: center;
+    padding: .5rem;
+}
+.loginBtn,.registerBtn{
+    width: 100%;
+    background:#22BEEF !important;
+    border:none !important;
+    border-radius:5px !important;
+    color:#fff !important;
+}
+.registerBtn{
+    background:#32D2C9 !important;
+}
+.particlesMain>div{
+    /* height:100%; */
+    /* position: relative;
+    top: 0px;
+    left: 0px; */
+}
+.particlesMain{
+    /* height:100%; */
+}
+.indexBomp{
+    width:100%;
+    height:100%;
+}
+.indexKol{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    color: #fff;
+    width: 50%;
+    height: 100%;
+}
+.indexTask{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    color: #fff;
+    width: 50%;
+    height: 100%;
+}
+.middleLeft,.middleRight{
+    position: absolute;
+    width: 300px;
+    top: calc(50% - 150px);
+    left: calc(50% - 150px);
+    text-align: center;
+}
+.btnLeft>button,.btnRight>button{
+    border: none;
+    width: 92%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+    border-radius: 25px;
+    background-color: #13151E;
+}
+.middleLeft>h1{
+    color:#fff;
+}
+.middleLeft>div{
+    margin: 30px 0;
+    font-size: 14px;
+}
+.middleRight>div{
+    font-size: 16px;
+    margin: 75px 0;
+}
+.btnGroup{
+    position: absolute;
+    top: 3%;
+    right: 3%;
+    border-radius: 20px;
+    color: white;
+    background: #343537;
+    text-align: center;
+    line-height: 31px;
+    width: 150px;
+    font-size: 14px;
+    cursor:pointer;
+}
+.formPage{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #000;
+    opacity: .8;
+    display: none;
+}
+.formPageHide{
+    display: block;
+}
+.registerForm,.loginForm{
+    width: 50%;
+    height: 100%;
+    color:#fff;
+    display: table;
+}
+.registerForm{
+    float:right;
+}
+.loginForm{
+    float:left;
+}
+.lineMiddle{
+    width: 0;
+    height: 50%;
+    border: 1px solid #212123;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+}
+.antRow,.antRowRight{
+    display:table-cell !important;
+    vertical-align:middle !important;
+}
+.antRow form{
+    width: 205px;
+    float: right;
+    margin: -152px 80px 0 0;
+}
+.antRowRight form{
+    width: 205px;
+    float:left;
+    margin: 195px 0px 0 80px;
+}
+.antRow form>div,.antRowRight form>div{
+    margin-bottom:50px;
+}
+form label{
+    color:#fff;
+}
+form .ant-form-explain{
+    position: absolute;
+}
+:global(.ant-form-explain){
+    position:absolute;
+}
+.colse{
+    color: #fff;
+    transform: rotate(135deg);
+    font-size: 40px;
+    position: absolute;
+    right: 8px;
+    cursor: pointer;
+    z-index: 20;
+}
