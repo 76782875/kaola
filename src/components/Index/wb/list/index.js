@@ -1,9 +1,23 @@
 import React from 'react'
 import styles from './index.less'
 import { Table } from 'antd'
+import {connect} from 'dva'
 
 class List extends React.Component{
+    constructor(props){
+        super(props)
+    }
     render(){
+        // const {list
+        // }=this.props.wbList;
+        const {
+            props:{
+                wbList:{
+                    list
+                }
+            }
+        } = this;
+        
         const column = [
             {
                 title:'头像',
@@ -47,7 +61,8 @@ class List extends React.Component{
             <div className={styles.list_main}>
                 <Table
                     columns = {column}
-                    key = 'id'
+                    dataSource = {list.list}
+                    rowKey = 'id'
                 >
 
                 </Table>
@@ -55,4 +70,13 @@ class List extends React.Component{
         )
     }
 }
-export default List;
+function mpStateToProps(state){
+    const {
+        wbList
+    } = state.index;
+    // console.warn(list);
+    return{
+        wbList,
+    }
+}
+export default connect(mpStateToProps)(List);

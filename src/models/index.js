@@ -9,15 +9,25 @@ export default{
         }
     },
     reducers:{
-
+        wbListData(state,{payload:list}){
+            return {...state,
+                wbList:{
+                    list,
+                }
+            }
+        },
     },
     effects:{
         *wbList ( _, {call,put}){
             const result = yield call(indexService.wbList, _.values);
             const {list} = result;
-            console.warn(result);
-            yield put({state,});
-        }
+            yield put({
+                type:'wbListData',
+                payload:{
+                    list
+                }
+            });
+        },
     },
     subscriptions:{
         setup({dispatch,history}){
