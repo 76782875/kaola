@@ -8,21 +8,28 @@ class List extends React.Component{
         super(props)
     }
     render(){
-        // const {list
-        // }=this.props.wbList;
         const {
             props:{
                 wbList:{
-                    list
+                    list:{list}
                 }
             }
         } = this;
-        
+        console.warn(list);
         const column = [
             {
                 title:'头像',
-                dataIndex:'id1',
+                dataIndex:'avatar',
                 width:'',
+                render:(avatar,item) => {
+                    return (
+                        <div>
+                            <span className={styles.imgs}>
+                                <img src={item.avatar} />
+                            </span>
+                        </div>
+                    )
+                }
             },{
                 title:'自媒体账号',
                 dataIndex:'id2',
@@ -35,6 +42,13 @@ class List extends React.Component{
                 title:'位置-报价',
                 dataIndex:'id4',
                 width:'',
+                render: () => {
+                    return(
+                        <div>
+
+                        </div>
+                    );
+                }
             },{
                 title:'推荐等级',
                 dataIndex:'id5',
@@ -61,7 +75,7 @@ class List extends React.Component{
             <div className={styles.list_main}>
                 <Table
                     columns = {column}
-                    dataSource = {list.list}
+                    dataSource = {list}
                     rowKey = 'id'
                 >
 
