@@ -5,17 +5,34 @@ import {connect} from 'dva'
 
 class List extends React.Component{
     constructor(props){
-        super(props)
+        super(props);
     }
+    doubleFunction = (idx) => {
+        this.props.dispatch({
+            type:'index/editActive',
+            payload:{
+                _active_right:false,
+            }
+        });
+    };
+    singleFunction = (idx) => {
+        this.props.dispatch({
+            type:'index/editActive',
+            payload:{
+                _active_right:true,
+            }
+        });
+    };
     render(){
         const {
             props:{
                 wbList:{
                     list:{list}
-                }
+                },
+                _active_right
             }
         } = this;
-        console.warn(list);
+        
         const column = [
             {
                 title:'头像',
@@ -72,11 +89,14 @@ class List extends React.Component{
             },
         ]
         return(
-            <div className={styles.list_main}>
+            <div className={this.props._active_right?styles._active_right:styles.list_main}>
                 <Table
                     columns = {column}
                     dataSource = {list}
                     rowKey = 'id'
+                    onRowDoubleClick = {this.doubleFunction.bind(this)}
+                    onRowClick = {this.singleFunction.bind(this)}
+                    //onRowClick = {this.asideOrEchartsFunction.bind(this,'single')}
                 >
 
                 </Table>
@@ -86,11 +106,15 @@ class List extends React.Component{
 }
 function mpStateToProps(state){
     const {
-        wbList
+        wbList,
+        _active_left,
+        _active_right,
     } = state.index;
-    // console.warn(list);
+    // console.warn(state,123333);
     return{
         wbList,
+        _active_left,
+        _active_right,
     }
 }
 export default connect(mpStateToProps)(List);

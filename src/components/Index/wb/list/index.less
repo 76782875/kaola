@@ -1,5 +1,20 @@
 .list_main{
-    width:80%;
+    width:calc(~"100% - 300px");
+    position: absolute;
+    left: 19rem;
+    .imgs{
+        display: block;
+        width:2rem;
+        img{
+            width:100%;
+        }
+    }
+}
+._active_right{
+    transition:left 1s;
+    left:0rem;
+    width:60%;
+    position: absolute;
     .imgs{
         display: block;
         width:2rem;

@@ -14,4 +14,13 @@ function index(){
         </div>
     )
 }
-export default connect()(index);
+
+function mpStateToProps(state){
+    const {
+        index:{
+            _active_right
+        }
+    } = state
+    return {_active_right}
+}
+export default connect(mpStateToProps)(index);
