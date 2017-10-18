@@ -7,7 +7,6 @@ export default{
         wbList:{
             list:[],
         },
-        _active_left:false,
         _active_right:false,
     },
     reducers:{
@@ -19,7 +18,6 @@ export default{
             }
         },
         editActive(state,{payload:boolean}){
-            console.log(boolean,555555555555555);
             return {
                 ...state,
                 _active_right:boolean._active_right

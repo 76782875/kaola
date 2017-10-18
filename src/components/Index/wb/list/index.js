@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './index.less'
-import { Table } from 'antd'
+import { Table ,Checkbox} from 'antd'
 import {connect} from 'dva'
 
 class List extends React.Component{
@@ -59,10 +59,15 @@ class List extends React.Component{
                 title:'位置-报价',
                 dataIndex:'id4',
                 width:'',
-                render: () => {
+                render: (text,item) => {
                     return(
                         <div>
-
+                            <Checkbox.Group>
+                                {item.priceHardDirect?<Checkbox>硬广直发</Checkbox>:null}
+                                {item.priceHardIndirect?<Checkbox>硬广转发</Checkbox>:null}
+                                {item.priceSoftDirect?<Checkbox>软广直发</Checkbox>:null}
+                                {item.priceSoftIndirect?<Checkbox>软广转发</Checkbox>:null}
+                            </Checkbox.Group>
                         </div>
                     );
                 }
@@ -107,13 +112,11 @@ class List extends React.Component{
 function mpStateToProps(state){
     const {
         wbList,
-        _active_left,
         _active_right,
     } = state.index;
     // console.warn(state,123333);
     return{
         wbList,
-        _active_left,
         _active_right,
     }
 }
