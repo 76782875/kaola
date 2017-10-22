@@ -1,11 +1,14 @@
 import React from 'react'
 import styles from './index.less'
-import { Table ,Checkbox} from 'antd'
+import { Table ,Checkbox ,Row} from 'antd'
 import {connect} from 'dva'
 
 class List extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+            postionSelects:[]
+        }
     }
     doubleFunction = (idx) => {
         this.props.dispatch({
@@ -23,6 +26,32 @@ class List extends React.Component{
             }
         });
     };
+    onChange = (item,selected,event ) =>{
+        const {postionSelects} = this.state,{id,uid} = item;
+        const isFirst =  postionSelects[id];
+        postionSelects[id] = [selected[selected.length -1]];
+        //[selected[selected.length -1]]始终获取的是当前点击的value
+        console.log(isFirst,selected,[selected[selected.length -1]],99999999999);
+        const priceType  = postionSelects[id][0];
+        // if (isFirst && isFirst[0]  && priceType) {
+        //     this.props.modifyCart({uid, priceType})
+        // } else {
+        //     if (!priceType) {
+        //         const cartId = record.cart.id;
+        //         this.props.deleteCart(cartId);
+        //     } else {
+        //         this.props.addCart({uid, priceType}).then((res) => {
+                    this.setState({
+                        postionSelects
+                    })
+        //         })
+        //     }
+        // }
+        this.doubleFunction();//点击checkbox时，不让页面开始动画
+        console.warn(item);
+        console.warn(selected);
+        console.warn(postionSelects,id,uid);
+    }
     render(){
         const {
             props:{
@@ -32,7 +61,10 @@ class List extends React.Component{
                 _active_right
             }
         } = this;
-        
+        const checkbox = {
+            display: 'block !important',
+        };
+        const {postionSelects} = this.state;
         const column = [
             {
                 title:'头像',
@@ -62,11 +94,12 @@ class List extends React.Component{
                 render: (text,item) => {
                     return(
                         <div>
-                            <Checkbox.Group>
-                                {item.priceHardDirect?<Checkbox>硬广直发</Checkbox>:null}
-                                {item.priceHardIndirect?<Checkbox>硬广转发</Checkbox>:null}
-                                {item.priceSoftDirect?<Checkbox>软广直发</Checkbox>:null}
-                                {item.priceSoftIndirect?<Checkbox>软广转发</Checkbox>:null}
+                            <Checkbox.Group onChange={this.onChange.bind(this,item)}>
+                                {/* {item.priceHardDirect?<Checkbox style={{display:'block',color: '#fff'}}>硬广直发</Checkbox>:null} */}
+                                {item.priceHardDirect?<Row><Checkbox style={{color: '#fff'}} value="0">硬广直发</Checkbox></Row>:null}
+                                {item.priceHardIndirect?<Row><Checkbox style={{color: '#fff'}} value="1">硬广转发</Checkbox></Row>:null}
+                                {item.priceSoftDirect?<Row><Checkbox style={{color: '#fff'}} value="2">软广直发</Checkbox></Row>:null}
+                                {item.priceSoftIndirect?<Row><Checkbox style={{color: '#fff'}} value="3">软广转发</Checkbox></Row>:null}
                             </Checkbox.Group>
                         </div>
                     );
