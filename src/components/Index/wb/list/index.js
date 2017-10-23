@@ -4,55 +4,45 @@ import { Table ,Checkbox ,Row} from 'antd'
 import {connect} from 'dva'
 
 class List extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            postionSelects:[]
-        }
+    state = {
+        postionSelects:[]
     }
-    doubleFunction = (idx) => {
-        this.props.dispatch({
-            type:'index/editActive',
-            payload:{
-                _active_right:false,
-            }
-        });
-    };
-    singleFunction = (idx) => {
-        this.props.dispatch({
-            type:'index/editActive',
-            payload:{
-                _active_right:true,
-            }
-        });
-    };
-    onChange = (item,selected,event ) =>{
-        const {postionSelects} = this.state,{id,uid} = item;
-        const isFirst =  postionSelects[id];
-        postionSelects[id] = [selected[selected.length -1]];
-        //[selected[selected.length -1]]始终获取的是当前点击的value
-        console.log(isFirst,selected,[selected[selected.length -1]],99999999999);
-        const priceType  = postionSelects[id][0];
-        // if (isFirst && isFirst[0]  && priceType) {
-        //     this.props.modifyCart({uid, priceType})
-        // } else {
-        //     if (!priceType) {
-        //         const cartId = record.cart.id;
-        //         this.props.deleteCart(cartId);
-        //     } else {
-        //         this.props.addCart({uid, priceType}).then((res) => {
+    firstComing = false
+    componentDidUpdate() {
+        console.log(this._handleWbMedias);
+        this._handleWbMedias();
+    }
+
+    _handleWbMedias() {
+        const wbMedias = this.props.wbList.list.list,
+            postionSelects = this.state.postionSelects,
+            firstComing = this.firstComing;
+        if (firstComing || wbMedias.length < 1) return;
+        wbMedias.forEach(medias => {
+            postionSelects[medias.id] = [medias.cart.priceType];
+            console.log(postionSelects);
+        })
+        this.firstComing = true;
+    }
+    onChange = (item,selected) =>{
+        const {postionSelects} = this.state,
+        {id, uid} = item;
+        const isFirst = postionSelects[id];
+        postionSelects[id] = [selected[selected.length - 1]];
+        const priceType = postionSelects[id][0];
+         
+                this.props.addSelect({uid, priceType}).then((res) => {
                     this.setState({
                         postionSelects
                     })
-        //         })
+                })
         //     }
         // }
-        this.doubleFunction();//点击checkbox时，不让页面开始动画
-        console.warn(item);
-        console.warn(selected);
-        console.warn(postionSelects,id,uid);
+        //准备参数，调用接口
+        this.props.doubleFunction();//点击checkbox时，不让页面开始动画
     }
     render(){
+        console.log(this.state.postionSelects);
         const {
             props:{
                 wbList:{
@@ -92,14 +82,17 @@ class List extends React.Component{
                 dataIndex:'id4',
                 width:'',
                 render: (text,item) => {
+                    const {id} =item;
+                    const {postionSelects} =this.state;
                     return(
-                        <div>
-                            <Checkbox.Group onChange={this.onChange.bind(this,item)}>
+                        <div > 
+                            {/* <Checkbox.Group onChange={this.onChange.bind(this,item)} value={this.state.postionSelects[id]} defaultValue={item.cart?'"'+ item.cart.priceType +'"':'"'+ 0 +'"'}> */}
+                            <Checkbox.Group onChange={this.onChange.bind(this,item)} value={postionSelects[id]}>
                                 {/* {item.priceHardDirect?<Checkbox style={{display:'block',color: '#fff'}}>硬广直发</Checkbox>:null} */}
-                                {item.priceHardDirect?<Row><Checkbox style={{color: '#fff'}} value="0">硬广直发</Checkbox></Row>:null}
-                                {item.priceHardIndirect?<Row><Checkbox style={{color: '#fff'}} value="1">硬广转发</Checkbox></Row>:null}
-                                {item.priceSoftDirect?<Row><Checkbox style={{color: '#fff'}} value="2">软广直发</Checkbox></Row>:null}
-                                {item.priceSoftIndirect?<Row><Checkbox style={{color: '#fff'}} value="3">软广转发</Checkbox></Row>:null}
+                                {item.priceHardDirect?<Row><Checkbox style={{color: '#fff'}} value={1}>硬广直发</Checkbox></Row>:null}
+                                {item.priceHardIndirect?<Row><Checkbox style={{color: '#fff'}} value={2}>硬广转发</Checkbox></Row>:null}
+                                {item.priceSoftDirect?<Row><Checkbox style={{color: '#fff'}} value={3}>软广直发</Checkbox></Row>:null}
+                                {item.priceSoftIndirect?<Row><Checkbox style={{color: '#fff'}} value={4}>软广转发</Checkbox></Row>:null}
                             </Checkbox.Group>
                         </div>
                     );
@@ -132,8 +125,8 @@ class List extends React.Component{
                     columns = {column}
                     dataSource = {list}
                     rowKey = 'id'
-                    onRowDoubleClick = {this.doubleFunction.bind(this)}
-                    onRowClick = {this.singleFunction.bind(this)}
+                    onRowDoubleClick = {this.props.doubleFunction.bind(this)}
+                    onRowClick = {this.props.singleFunction.bind(this)}
                     //onRowClick = {this.asideOrEchartsFunction.bind(this,'single')}
                 >
 
@@ -153,4 +146,43 @@ function mpStateToProps(state){
         _active_right,
     }
 }
-export default connect(mpStateToProps)(List);
+function mpDispatchToProps(dispatch){
+    return{
+        dispatch,
+        doubleFunction:(idx) => {
+            dispatch({
+                type:'index/editActive',
+                payload:{
+                    _active_right:false,
+                }
+            });
+        },
+        singleFunction:(idx) => {
+            dispatch({
+                type:'index/editActive',
+                payload:{
+                    _active_right:true,
+                }
+            });
+        },
+        addSelect: ({uid, priceType}) => {
+            return dispatch({
+                type: "app/addWbCart",
+                payload: {uid, priceType}
+            });
+        },
+        wbSelect: ({uid, priceType}) => {
+            return dispatch({
+                type: "app/modifyWbCart",//不知道接口，先模拟调一下
+                payload: {uid, priceType}
+            });
+        },
+        deleteSelect: (id) => {
+            dispatch({
+                type: "app/deleteWbCart",
+                payload: id
+            });
+        },
+    }
+}
+export default connect(mpStateToProps,mpDispatchToProps)(List);
