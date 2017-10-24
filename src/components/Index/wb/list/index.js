@@ -9,7 +9,6 @@ class List extends React.Component{
     }
     firstComing = false
     componentDidUpdate() {
-        console.log(this._handleWbMedias);
         this._handleWbMedias();
     }
 
@@ -19,10 +18,14 @@ class List extends React.Component{
             firstComing = this.firstComing;
         if (firstComing || wbMedias.length < 1) return;
         wbMedias.forEach(medias => {
-            postionSelects[medias.id] = [medias.cart.priceType];
-            console.log(postionSelects);
+            if(medias.cart){
+                postionSelects[medias.id] = [medias.cart.priceType];
+            }
         })
         this.firstComing = true;
+        this.setState({
+            postionSelects
+        });
     }
     onChange = (item,selected) =>{
         const {postionSelects} = this.state,
@@ -42,7 +45,6 @@ class List extends React.Component{
         this.props.doubleFunction();//点击checkbox时，不让页面开始动画
     }
     render(){
-        console.log(this.state.postionSelects);
         const {
             props:{
                 wbList:{
@@ -54,7 +56,6 @@ class List extends React.Component{
         const checkbox = {
             display: 'block !important',
         };
-        const {postionSelects} = this.state;
         const column = [
             {
                 title:'头像',
@@ -71,12 +72,22 @@ class List extends React.Component{
                 }
             },{
                 title:'自媒体账号',
-                dataIndex:'id2',
+                dataIndex:'mediaName',
                 width:'',
+                render:(text,item) =>{
+                    return(
+                        <span>{item.mediaName}</span>
+                    )
+                }
             },{
                 title:'粉丝数(万)',
-                dataIndex:'id3',
+                dataIndex:'fans',
                 width:'',
+                render:(text,item) =>{
+                    return(
+                        <span>{item.fans}</span>
+                    )
+                }
             },{
                 title:'位置-报价',
                 dataIndex:'id4',
@@ -85,38 +96,65 @@ class List extends React.Component{
                     const {id} =item;
                     const {postionSelects} =this.state;
                     return(
-                        <div > 
+                        <div onClick={(e) => {
+                            e.stopPropagation();
+                        }}> 
                             {/* <Checkbox.Group onChange={this.onChange.bind(this,item)} value={this.state.postionSelects[id]} defaultValue={item.cart?'"'+ item.cart.priceType +'"':'"'+ 0 +'"'}> */}
                             <Checkbox.Group onChange={this.onChange.bind(this,item)} value={postionSelects[id]}>
                                 {/* {item.priceHardDirect?<Checkbox style={{display:'block',color: '#fff'}}>硬广直发</Checkbox>:null} */}
-                                {item.priceHardDirect?<Row><Checkbox style={{color: '#fff'}} value={1}>硬广直发</Checkbox></Row>:null}
-                                {item.priceHardIndirect?<Row><Checkbox style={{color: '#fff'}} value={2}>硬广转发</Checkbox></Row>:null}
-                                {item.priceSoftDirect?<Row><Checkbox style={{color: '#fff'}} value={3}>软广直发</Checkbox></Row>:null}
-                                {item.priceSoftIndirect?<Row><Checkbox style={{color: '#fff'}} value={4}>软广转发</Checkbox></Row>:null}
+                                {item.priceHardDirect?<Row><Checkbox style={{color: '#fff'}} value={1}>硬广直发</Checkbox><span className={styles.price}>￥{item.priceHardDirect}</span></Row>:null}
+                                {item.priceHardIndirect?<Row><Checkbox style={{color: '#fff'}} value={2}>硬广转发</Checkbox><span className={styles.price}>￥{item.priceHardIndirect}</span></Row>:null}
+                                {item.priceSoftDirect?<Row><Checkbox style={{color: '#fff'}} value={3}>软广直发</Checkbox><span className={styles.price}>￥{item.priceSoftDirect}</span></Row>:null}
+                                {item.priceSoftIndirect?<Row><Checkbox style={{color: '#fff'}} value={4}>软广转发</Checkbox><span className={styles.price}>￥{item.priceSoftIndirect}</span></Row>:null}
                             </Checkbox.Group>
                         </div>
                     );
                 }
             },{
                 title:'推荐等级',
-                dataIndex:'id5',
+                dataIndex:'recommendLevel',
                 width:'',
+                render:(text,item) =>{
+                    return(
+                        <span>{item.recommendLevel}</span>
+                    )
+                }
             },{
                 title:'平均转发数',
-                dataIndex:'id6',
+                dataIndex:'medianRepostsCnt',
                 width:'',
+                render:(text,item) =>{
+                    return(
+                        <span>{item.medianRepostsCnt}</span>
+                    )
+                }
             },{
                 title:'平均评论数',
-                dataIndex:'id7',
+                dataIndex:'medianCommentsCnt',
                 width:'',
+                render:(text,item) =>{
+                    return(
+                        <span>{item.medianCommentsCnt}</span>
+                    )
+                }
             },{
                 title:'平均点赞数',
-                dataIndex:'id8',
+                dataIndex:'medianAttitudesCnt',
                 width:'',
+                render:(text,item) =>{
+                    return(
+                        <span>{item.medianAttitudesCnt}</span>
+                    )
+                }
             },{
                 title:'转赞比',
                 dataIndex:'id9',
                 width:'',
+                render:(text,item) =>{
+                    return(
+                        <span>{item.medianRepostsCnt/item.medianCommentsCnt}</span>
+                    )
+                }
             },
         ]
         return(
@@ -136,14 +174,19 @@ class List extends React.Component{
     }
 }
 function mpStateToProps(state){
+    console.log(state,33333333333);
     const {
         wbList,
         _active_right,
+        wb_item,
+        wbBaseMapData,
     } = state.index;
     // console.warn(state,123333);
     return{
         wbList,
         _active_right,
+        wb_item,
+        wbBaseMapData,
     }
 }
 function mpDispatchToProps(dispatch){
@@ -154,6 +197,7 @@ function mpDispatchToProps(dispatch){
                 type:'index/editActive',
                 payload:{
                     _active_right:false,
+                    wb_item:idx,
                 }
             });
         },
@@ -162,7 +206,13 @@ function mpDispatchToProps(dispatch){
                 type:'index/editActive',
                 payload:{
                     _active_right:true,
+                    wb_item:idx,
                 }
+            });
+            //调用近30天基本指标变化图
+            dispatch({
+                type:'index/baseMap',
+                payload:idx.uid,
             });
         },
         addSelect: ({uid, priceType}) => {

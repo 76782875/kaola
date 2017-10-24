@@ -136,6 +136,7 @@ class WbList extends React.Component {
                     const {priceHardDirect, priceHardIndirect, priceSoftDirect, priceSoftIndirect} = item.wb_media;
                     const {postionSelects} = this.state;
                     const id = item.id;
+                    console.log(postionSelects[id]);
                     return (
                         <div onClick={(e) => {
                             e.stopPropagation();

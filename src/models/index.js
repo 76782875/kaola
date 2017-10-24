@@ -7,6 +7,8 @@ export default{
         wbList:{
             list:[],
         },
+        wb_item:{},
+        wbBaseMapData:[],
         _active_right:false,
     },
     reducers:{
@@ -17,10 +19,18 @@ export default{
                 }
             }
         },
-        editActive(state,{payload:boolean}){
+        editActive(state,{payload:values}){
             return {
                 ...state,
-                _active_right:boolean._active_right
+                _active_right:values._active_right,
+                wb_item:values.wb_item,
+            }
+        },
+        baseMapData(state,{payload:values}){
+            const wbBaseMapData = values.result;
+            return {
+                ...state,
+                wbBaseMapData,
             }
         }
     },
@@ -35,6 +45,15 @@ export default{
                 }
             });
         },
+        *baseMap ({payload:values},{call,put}){
+            const result = yield call(indexService.getBadeMap,{uid:values});
+            yield put({
+                type:'baseMapData',
+                payload:{
+                    result,
+                }
+            });
+        }
     },
     subscriptions:{
         setup({dispatch,history}){

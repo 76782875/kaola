@@ -2,10 +2,69 @@
     position: absolute;
     width:15%;
     left: 100%;
+    padding-left: 1rem;
 }
 ._active_right{
     position: absolute;
     width:39%;
     left:61%;
     transition:left 1s;
+}
+.portrait{
+    p{
+        line-height: 46px;
+        background-color: #2b2a2f;
+        padding:0 1rem;
+        overflow: hidden;
+        b{
+            float:right;
+            cursor:pointer;
+        }
+    }
+}
+.portrait_ol{
+    overflow: hidden;
+    height:5rem;
+    background-color: #afaaaa;
+    margin-top: .5rem;
+    li:first-child{
+        span{
+            width: 2rem;
+            height: 2rem;
+            display: inline-block;
+            img{
+                width:100%;
+            }
+        }
+    }
+    li{
+        float:left;
+        margin-top: 1.5rem;
+        margin-left: 1rem;
+    }
+    
+}
+.portrait_ul>li{
+    margin-top:.5rem;
+}
+.portrait_ul>li:first-child{
+    margin-top:0;
+}
+.portrait_ul{
+    li.price_table{
+        p{
+            border-bottom: 1px solid #afaaaa;
+            padding: 1rem;
+        }
+        table{
+            border-collapse: collapse;
+            margin-top:.5rem;
+            td{
+                border:1px solid #afaaaa;
+                width: 7rem;
+                line-height: 1.5rem;
+                text-align: center;
+            }
+        }
+    }
 }
