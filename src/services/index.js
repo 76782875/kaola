@@ -14,3 +14,11 @@ export function getBadeMap(data){
         data,
     });
 }
+
+//词云
+export function getWorkCould(data){
+    return ajaxApi('/wbmedias/detail',{
+        mathod:'get',
+        data,
+    });
+}

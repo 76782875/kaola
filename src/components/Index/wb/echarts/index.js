@@ -2,27 +2,34 @@ import React from 'react'
 import styles from './index.less'
 import { connect } from 'dva'
 import echarts from 'echarts'
+import ReactEcharts from 'echarts-for-react'
+import AreaLineChart from '../../../Chart/AreaLineChart'
+import WordCloudChart from '../../../Chart/WordCloudChart'
 
 class Echarts extends React.Component{
-    componentDidMount() {
-        // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('main'));
-        // 绘制图表
-        myChart.setOption({
-            title: { text: 'ECharts 入门示例' },
-            tooltip: {},
-            xAxis: {
-                data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-            },
-            yAxis: {},
-            series: [{
-                name: '销量',
-                type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
-            }]
-        });
-    }
+
     render(){
+        let wordClouds=[];
+        if(this.props.wordCloud){
+            let wordCloudMap = this.props.wordCloud;
+            for(var name in wordCloudMap){
+                wordClouds.push({
+                    name: name,
+                    value: wordCloudMap[name]
+                });
+            }
+        }
+        console.log(wordClouds)
+        const postTime = [],comments=[],reposts=[],attitudes=[],wbBaseMapData = this.props.wbBaseMapData;
+        if(wbBaseMapData.length > 0){
+            wbBaseMapData.map((key)=>{
+                postTime.push(key.post_time);
+                comments.push(key.comments_sum);
+                reposts.push(key.reposts_sum);
+                attitudes.push(key.attitudes_sum);
+            });
+        }
+        // this.drawMap();
         return(
             <div className={this.props._active_right?styles._active_right:styles.echarts_main }>
                 <ul className={styles.portrait_ul}>
@@ -76,7 +83,54 @@ class Echarts extends React.Component{
                     </li>
                     <li className={styles.price_table}>
                         <p>近30天基本指标变化图</p>
-                        <div id="main" style={{ width: 400, height: 400 }}></div>
+                        <AreaLineChart
+                            title="评论数"
+                            color={['#3a896c']}
+                            colorStops={[{
+                                offset: 0, color: 'rgba(58, 137, 108, 0.8)' // 0% 处的颜色
+                            }, {
+                                offset: 1, color: 'rgba(58, 137, 108, 0)' // 100% 处的颜色
+                            }]}
+                            xAxisData = {postTime}
+                            seriesData = {comments}
+                        >
+                        </AreaLineChart>
+                        <AreaLineChart
+                            title="转发数"
+                            color={['yellow']}
+                            colorStops={[
+                                {
+                                    offset: 0, color: 'rgba(58, 137, 108, 0.8)'
+                                },
+                                {
+                                    offset: 1, color: 'rgba(58, 137, 108, 0)'
+                                }
+                            ]}
+                            xAxisData = {postTime}
+                            seriesData = {reposts}
+                        >
+                        </AreaLineChart>
+                        <AreaLineChart
+                            title="点赞比"
+                            color={['pink']}
+                            colorStops={[
+                                {
+                                    offset: 0, color: 'rgba(58, 137, 108, 0.8)'
+                                },
+                                {
+                                    offset: 1, color: 'rgba(58, 137, 108, 0)'
+                                }
+                            ]}
+                            xAxisData = {postTime}
+                            seriesData = {attitudes}
+                        >
+                        </AreaLineChart>
+                    </li>
+                    <li className={styles.price_table}>
+                        <p>内容词云</p>
+                        <div  style={{width:"100%", height:300}}>
+                            <WordCloudChart data={wordClouds}/>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -88,11 +142,15 @@ function mpStateToProps(state){
         index:{
             _active_right,
             wb_item,
+            wbBaseMapData,
+            wordCloud,
         }
     } = state
     return {
         _active_right,
         wb_item,
+        wbBaseMapData,
+        wordCloud,
     }
 }
 function mpDispatchToProps(dispatch){

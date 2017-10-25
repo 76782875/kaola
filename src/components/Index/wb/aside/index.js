@@ -1,7 +1,9 @@
 import React from 'react'
 import styles from './index.less'
 import { connect } from 'dva'
+import { Input } from 'antd'
 
+const Search = Input.Search;
 class Aside extends React.Component{
     render(){
         return(
@@ -9,7 +11,13 @@ class Aside extends React.Component{
                 <ol>
                     <li>
                         <h4>账号搜索</h4>
-                        <div></div>
+                        <div className={styles.search}>
+                            <Search
+                                placeholder="input search text"
+                                style={{ width: 260 }}
+                                onSearch={value => console.log(value)}
+                            />
+                        </div>
                     </li>
                     <li>
                         <h4>投放需求</h4>
@@ -36,4 +44,12 @@ function mpStateToProps(state){
     } = state
     return {_active_right}
 }
-export default connect(mpStateToProps)(Aside);
+function mpDispatchToProps(dispatch){
+    // dispatch({
+    //     type:"index/asideSearch",
+    //     payload:{
+    //         keywords:
+    //     }
+    // });
+}
+export default connect(mpStateToProps,mpDispatchToProps)(Aside);

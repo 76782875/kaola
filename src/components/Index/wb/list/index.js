@@ -174,7 +174,6 @@ class List extends React.Component{
     }
 }
 function mpStateToProps(state){
-    console.log(state,33333333333);
     const {
         wbList,
         _active_right,
@@ -212,6 +211,11 @@ function mpDispatchToProps(dispatch){
             //调用近30天基本指标变化图
             dispatch({
                 type:'index/baseMap',
+                payload:idx.uid,
+            });
+            //调用词云接口
+            dispatch({
+                type:'index/workCloud',
                 payload:idx.uid,
             });
         },

@@ -2,6 +2,7 @@ import React from 'react';
 import 'echarts-wordcloud';
 import ReactEcharts from 'echarts-for-react';
 const WordCloud = ({data}) => {
+    console.log(data)
      function getOption() {
         var option = {
             tooltip: {},

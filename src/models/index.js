@@ -9,6 +9,7 @@ export default{
         },
         wb_item:{},
         wbBaseMapData:[],
+        wordCloud:{},
         _active_right:false,
     },
     reducers:{
@@ -32,6 +33,13 @@ export default{
                 ...state,
                 wbBaseMapData,
             }
+        },
+        wordCloudData(state,{payload:values}){
+            const {wordCloud} = values;
+            return {
+                ...state,
+                wordCloud,
+            }
         }
     },
     effects:{
@@ -51,6 +59,15 @@ export default{
                 type:'baseMapData',
                 payload:{
                     result,
+                }
+            });
+        },
+        *workCloud ({payload:values},{call,put}){
+            const result = yield call(indexService.getWorkCould,{uid:values});
+            yield put({
+                type:'wordCloudData',
+                payload:{
+                    wordCloud:result.word_cloud,
                 }
             });
         }
